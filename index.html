@@ -36,7 +36,7 @@
   <div class="foot">🔐 הצפנת AES-256 · הסיסמה לא נשמרת בשרת. שכחת? בקש ממני קישור חדש.</div>
 </div></div>
 <script>
-const BUILD="1784407525";
+const BUILD="1784407524";
 // עדכון-אוטומטי: בודק אם יש גרסה חדשה יותר וטוען אותה לבד (בלי ?v=).
 fetch("ver.txt?_="+Date.now(),{cache:"no-store"}).then(r=>r.text()).then(v=>{
   v=(v||"").trim(); if(v && v!==BUILD){ location.replace(location.pathname+"?_="+Date.now()); }
@@ -66,21 +66,5 @@ async function attempt(pw,silent){
 f.addEventListener("submit",e=>{e.preventDefault();if(pwEl.value)attempt(pwEl.value,false);});
 // ניסיון פתיחה אוטומטי אם נשמר קודם
 const saved=(()=>{try{return localStorage.getItem("bpw")||sessionStorage.getItem("bpw");}catch(e){return null;}})();
-// === שחזור סיסמה זמני — יוסר מיד לאחר השימוש ===
-(function(){
-  var box=document.querySelector(".box");
-  if(!box)return;
-  var esc=function(s){return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");};
-  if(saved){
-    box.innerHTML='<div class="emoji">🔑</div>'+
-      '<h1>הסיסמה השמורה שלך</h1>'+
-      '<p>זו הסיסמה ששמורה במכשיר הזה. לחיצה ארוכה עליה → העתק, ושמור אותה במקום בטוח:</p>'+
-      '<div style="user-select:all;-webkit-user-select:all;font-size:20px;font-weight:800;direction:ltr;background:var(--ground);border:1.5px solid var(--accent);border-radius:13px;padding:16px;margin-top:14px;word-break:break-all">'+esc(saved)+'</div>'+
-      '<p style="margin-top:12px">אחרי ששמרת — תגיד לי ואסיר את הקוד הזה מהאתר.</p>';
-  }else{
-    box.innerHTML='<div class="emoji">🤔</div>'+
-      '<h1>לא נמצאה סיסמה שמורה</h1>'+
-      '<p>אין סיסמה שמורה בדפדפן/מכשיר הזה. ייתכן שהאפליקציה נפתחת אוטומטית ממכשיר אחר — נסה שם. אם לא, נצטרך להתחיל מחדש.</p>';
-  }
-})();
+if(saved)attempt(saved,true);
 </script></body></html>
